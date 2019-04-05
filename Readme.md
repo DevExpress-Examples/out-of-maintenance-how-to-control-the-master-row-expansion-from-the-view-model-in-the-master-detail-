@@ -3,7 +3,7 @@
 
 * [DataClass.cs](./CS/WPFDataGridApp15/DataClass.cs) (VB: [DataClass.vb](./VB/WPFDataGridApp15/DataClass.vb))
 * [MainWindow.xaml](./CS/WPFDataGridApp15/MainWindow.xaml) (VB: [MainWindow.xaml](./VB/WPFDataGridApp15/MainWindow.xaml))
-* [MainWindow.xaml.cs](./CS/WPFDataGridApp15/MainWindow.xaml.cs) (VB: [MainWindow.xaml](./VB/WPFDataGridApp15/MainWindow.xaml))
+* [MainWindow.xaml.cs](./CS/WPFDataGridApp15/MainWindow.xaml.cs) (VB: [MainWindow.xaml.vb](./VB/WPFDataGridApp15/MainWindow.xaml.vb))
 * [MasterDetailMVVMHelper.cs](./CS/WPFDataGridApp15/MVVMHelper/MasterDetailMVVMHelper.cs) (VB: [MasterDetailMVVMHelper.vb](./VB/WPFDataGridApp15/MVVMHelper/MasterDetailMVVMHelper.vb))
 * [ViewModel.cs](./CS/WPFDataGridApp15/ViewModel.cs) (VB: [ViewModel.vb](./VB/WPFDataGridApp15/ViewModel.vb))
 <!-- default file list end -->
