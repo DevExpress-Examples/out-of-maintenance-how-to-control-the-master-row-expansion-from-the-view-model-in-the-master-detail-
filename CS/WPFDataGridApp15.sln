@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFDataGridApp15", "WPFDataGridApp15\WPFDataGridApp15.csproj", "{36F452B3-3B32-4E86-B882-B26FB5CE066C}"
 EndProject
 Global
