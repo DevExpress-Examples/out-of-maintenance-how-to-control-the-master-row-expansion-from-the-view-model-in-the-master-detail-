@@ -1,5 +1,4 @@
-Imports Microsoft.VisualBasic
-Imports System
+﻿Imports System
 Imports System.Collections
 Imports System.Collections.Generic
 Imports System.Collections.Specialized
@@ -46,7 +45,7 @@ Namespace WPFDataGridApp15
 
 		Public Shared ReadOnly ExpandedMasterRowsSourceProperty As DependencyProperty = DependencyProperty.RegisterAttached("ExpandedMasterRowsSource", GetType(IList), GetType(MasterDetailMVVMHelper), New UIPropertyMetadata(Nothing, New PropertyChangedCallback(AddressOf OnExpandedMasterRowsSourceChanged)))
 		Public Shared Function GetExpandedMasterRowsSource(ByVal target As GridControl) As IList
-			Return CType(target.GetValue(ExpandedMasterRowsSourceProperty), IList)
+			Return DirectCast(target.GetValue(ExpandedMasterRowsSourceProperty), IList)
 		End Function
 
 		Public Shared Sub SetExpandedMasterRowsSource(ByVal target As GridControl, ByVal value As IList)
@@ -57,7 +56,7 @@ Namespace WPFDataGridApp15
 			Dim currentInstance As MasterDetailMVVMHelper
 
 			Dim targetGridControl As GridControl = CType(o, GridControl)
-			If (Not instanceDictionary.ContainsKey(targetGridControl)) Then
+			If Not instanceDictionary.ContainsKey(targetGridControl) Then
 				instanceDictionary(targetGridControl) = CreateInstance()
 			End If
 
@@ -68,18 +67,15 @@ Namespace WPFDataGridApp15
 
 		Protected Friend Sub Instance_OnExpandedMasterRowsSourceChanged(ByVal newValue As IList)
 			ExpandedItemsCollection = newValue
-			Dispatcher.CurrentDispatcher.BeginInvoke(New Action(Function() AnonymousMethod1()), DispatcherPriority.Loaded)
+			Dispatcher.CurrentDispatcher.BeginInvoke(New Action(Sub()
+				ToggleItemRowsExpansion(ExpandedItemsCollection, True)
+			End Sub), DispatcherPriority.Loaded)
 
 			Dim collectionWithNotification As INotifyCollectionChanged = TryCast(newValue, INotifyCollectionChanged)
 			If collectionWithNotification IsNot Nothing Then
 				AddHandler collectionWithNotification.CollectionChanged, AddressOf OnExpandedItemCollectionChanged
 			End If
 		End Sub
-		
-		Private Function AnonymousMethod1() As Boolean
-			ToggleItemRowsExpansion(ExpandedItemsCollection, True)
-			Return True
-		End Function
 
 		Private Sub OnExpandedItemCollectionChanged(ByVal sender As Object, ByVal e As NotifyCollectionChangedEventArgs)
 			If e.Action = NotifyCollectionChangedAction.Add Then
@@ -117,7 +113,7 @@ Namespace WPFDataGridApp15
 			expandedRowsUpdate = True
 
 			For Each item As Object In itemList
-				Dim itemIndex As Integer = (CType(TargetControl.ItemsSource, IList)).IndexOf(item)
+				Dim itemIndex As Integer = DirectCast(TargetControl.ItemsSource, IList).IndexOf(item)
 				If itemIndex <> -1 Then
 					Dim rowHandle As Integer = TargetControl.GetRowHandleByListIndex(itemIndex)
 					TargetControl.SetMasterRowExpanded(rowHandle, expand)
@@ -140,13 +136,13 @@ Namespace WPFDataGridApp15
 		End Sub
 
 		Private Sub TargetControl_MasterRowExpanded(ByVal sender As Object, ByVal e As RowEventArgs)
-			If (Not InternalExpandedRowsUpdate) Then
+			If Not InternalExpandedRowsUpdate Then
 				ExpandedItemsCollection.Add(e.Row)
 			End If
 		End Sub
 
 		Private Sub TargetControl_MasterRowCollapsed(ByVal sender As Object, ByVal e As RowEventArgs)
-			If (Not InternalExpandedRowsUpdate) Then
+			If Not InternalExpandedRowsUpdate Then
 				ExpandedItemsCollection.Remove(e.Row)
 			End If
 		End Sub

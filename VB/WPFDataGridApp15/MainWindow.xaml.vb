@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic
-Imports System.Windows
+﻿Imports System.Windows
 
 Namespace WPFDataGridApp15
 	''' <summary>
@@ -7,6 +6,7 @@ Namespace WPFDataGridApp15
 	''' </summary>
 	Partial Public Class MainWindow
 		Inherits Window
+
 		Public Sub New()
 			InitializeComponent()
 			Me.DataContext = New ViewModel()

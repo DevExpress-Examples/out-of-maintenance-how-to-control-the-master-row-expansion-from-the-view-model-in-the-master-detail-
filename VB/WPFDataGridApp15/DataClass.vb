@@ -1,17 +1,17 @@
-Imports Microsoft.VisualBasic
-Imports System
+﻿Imports System
 Imports System.Collections.ObjectModel
 
 Namespace WPFDataGridApp15
 	Public Class DataClass
-		Private Shared rnd_Renamed As Random
+'INSTANT VB NOTE: The field rnd was renamed since Visual Basic does not allow fields to have the same name as other class members:
+		Private Shared rnd_Conflict As Random
 		Public Shared ReadOnly Property Rnd() As Random
 			Get
-				If rnd_Renamed Is Nothing Then
-					rnd_Renamed = New Random()
+				If rnd_Conflict Is Nothing Then
+					rnd_Conflict = New Random()
 				End If
 
-				Return rnd_Renamed
+				Return rnd_Conflict
 			End Get
 		End Property
 
@@ -21,41 +21,19 @@ Namespace WPFDataGridApp15
 			DateValue = DateTime.Now.AddDays(-seed)
 
 			ChildData = New ObservableCollection(Of ChildDataClass)()
-			For i As Integer = 0 To Rnd.Next(1, 10) - 1
+			Dim i As Integer = 0
+			Do While i < Rnd.Next(1, 10)
 				ChildData.Add(New ChildDataClass() With {.ChildTextValue = "Detail value " & i})
-			Next i
+				i += 1
+			Loop
 		End Sub
 
 		Public Sub New()
 		End Sub
 
-		Private privateIntValue As Integer
 		Public Property IntValue() As Integer
-			Get
-				Return privateIntValue
-			End Get
-			Set(ByVal value As Integer)
-				privateIntValue = value
-			End Set
-		End Property
-		Private privateText As String
 		Public Property Text() As String
-			Get
-				Return privateText
-			End Get
-			Set(ByVal value As String)
-				privateText = value
-			End Set
-		End Property
-		Private privateDateValue As DateTime
 		Public Property DateValue() As DateTime
-			Get
-				Return privateDateValue
-			End Get
-			Set(ByVal value As DateTime)
-				privateDateValue = value
-			End Set
-		End Property
 		Private privateChildData As ObservableCollection(Of ChildDataClass)
 		Public Property ChildData() As ObservableCollection(Of ChildDataClass)
 			Get
@@ -68,15 +46,7 @@ Namespace WPFDataGridApp15
 	End Class
 
 	Public Class ChildDataClass
-		Private privateChildTextValue As String
 		Public Property ChildTextValue() As String
-			Get
-				Return privateChildTextValue
-			End Get
-			Set(ByVal value As String)
-				privateChildTextValue = value
-			End Set
-		End Property
 	End Class
 End Namespace
 
