@@ -1,52 +1,53 @@
-﻿Imports System
+Imports System
 Imports System.Collections.ObjectModel
 
 Namespace WPFDataGridApp15
-	Public Class DataClass
-'INSTANT VB NOTE: The field rnd was renamed since Visual Basic does not allow fields to have the same name as other class members:
-		Private Shared rnd_Conflict As Random
-		Public Shared ReadOnly Property Rnd() As Random
-			Get
-				If rnd_Conflict Is Nothing Then
-					rnd_Conflict = New Random()
-				End If
 
-				Return rnd_Conflict
-			End Get
-		End Property
+    Public Class DataClass
 
-		Public Sub New(ByVal seed As Integer)
-			IntValue = seed
-			Text = "Text " & seed
-			DateValue = DateTime.Now.AddDays(-seed)
+        Private _ChildData As ObservableCollection(Of WPFDataGridApp15.ChildDataClass)
 
-			ChildData = New ObservableCollection(Of ChildDataClass)()
-			Dim i As Integer = 0
-			Do While i < Rnd.Next(1, 10)
-				ChildData.Add(New ChildDataClass() With {.ChildTextValue = "Detail value " & i})
-				i += 1
-			Loop
-		End Sub
+        Private Shared rndField As Random
 
-		Public Sub New()
-		End Sub
+        Public Shared ReadOnly Property Rnd As Random
+            Get
+                If rndField Is Nothing Then rndField = New Random()
+                Return rndField
+            End Get
+        End Property
 
-		Public Property IntValue() As Integer
-		Public Property Text() As String
-		Public Property DateValue() As DateTime
-		Private privateChildData As ObservableCollection(Of ChildDataClass)
-		Public Property ChildData() As ObservableCollection(Of ChildDataClass)
-			Get
-				Return privateChildData
-			End Get
-			Private Set(ByVal value As ObservableCollection(Of ChildDataClass))
-				privateChildData = value
-			End Set
-		End Property
-	End Class
+        Public Sub New(ByVal seed As Integer)
+            IntValue = seed
+            Text = "Text " & seed
+            DateValue = Date.Now.AddDays(-seed)
+            ChildData = New ObservableCollection(Of ChildDataClass)()
+            For i As Integer = 0 To Rnd.Next(1, 10) - 1
+                ChildData.Add(New ChildDataClass() With {.ChildTextValue = "Detail value " & i})
+            Next
+        End Sub
 
-	Public Class ChildDataClass
-		Public Property ChildTextValue() As String
-	End Class
+        Public Sub New()
+        End Sub
+
+        Public Property IntValue As Integer
+
+        Public Property Text As String
+
+        Public Property DateValue As Date
+
+        Public Property ChildData As ObservableCollection(Of ChildDataClass)
+            Get
+                Return _ChildData
+            End Get
+
+            Private Set(ByVal value As ObservableCollection(Of ChildDataClass))
+                _ChildData = value
+            End Set
+        End Property
+    End Class
+
+    Public Class ChildDataClass
+
+        Public Property ChildTextValue As String
+    End Class
 End Namespace
-
